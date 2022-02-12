@@ -1,0 +1,92 @@
+<div class="container">
+    <!-- Drop-downs Section -->
+    <div class="row mt-5">
+        <!-- heading -->
+        <h1 id="heading">Student Progress Report</h1>
+        <div class="col-12 col-md-12 col-lg-10 mx-auto mt-3">
+            <!-- dropdown section -->
+            <div class="row mx-auto mt-2">
+                <!-- classDropdown -->
+                <div class="col-12 col-md-4 col-lg-3 ms-auto ">
+                    <label for="Class">Class</label>
+                    <select class="form-select w-100" (change)="classValue($event)">
+                        <option *ngFor="let element of classDropDown" [selected]="element=='Class 10' ? true : false">
+                            {{element}}</option>
+                    </select>
+                </div>
+                <!-- performanceDropdown -->
+                <div class="col-12 col-md-4 col-lg-3 mb-3 ">
+                    <label for="performance">Performance Level</label>
+                    <select class="form-select w-100" (change)="performanceValue($event)">
+                        <option>Select Level</option>
+                        <option *ngFor="let element of performance">{{element}}</option>
+                    </select>
+                </div>
+                <!-- getreport button -->
+                <div class="col-md-3 col-lg-3 me-auto mt-4">
+                    <button class="btn d-block me-auto" (click)="getReport()">Get Report</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Table Section -->
+    <div class="row" *ngIf="DataForDisplay.length!==0">
+        <div class="col-md-12 col-lg-10  mx-auto">
+            <div class="table-responsive mt-4">
+                <!-- class results heading -->
+                <div class="classResults">
+                    <p class="p-1 text-center mt-3">Class results</p>
+                </div>
+                <table class="table mx-auto">
+                    <thead>
+                        <tr>
+                            <!-- student Name with sort icons -->
+                            <th (click)="sortByName()" class="fixed-left">student name
+                                <i class="fas fa-arrow-up" *ngIf="status=='desc'"></i>
+                                <i class="fas fa-arrow-down" *ngIf="status=='asc'"></i>
+                            </th>
+                            <th>rank</th>
+                            <th>performance level</th>
+                            <!-- ngClass directive for ipad rendering-->
+                            <th [ngClass]="expand==false?'d-md-none d-lg-table-cell':'d-table-cell'">mid 1 out of 600
+                            </th>
+                            <th [ngClass]="expand==false?'d-md-none d-lg-table-cell':'d-table-cell'">mid 2 out of 600
+                            </th>
+                            <th [ngClass]="expand==false?'d-md-none d-lg-table-cell':'d-table-cell'">final score out of
+                                600</th>
+                            <!-- expand-collapse opeartion Button -->
+                            <th (click)="expandFun()"
+                                [ngClass]="expand==false?'d-lg-none d-lg-table-cell':'d-table-cell'"><i
+                                    class="fa-solid fa-angle-left"></i><i class="fa-solid fa-angle-right"></i>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let stdObj of DataForDisplay">
+                            <td>{{stdObj.studentName}}</td>
+                            <td>{{stdObj.rank}}</td>
+                            <td>{{stdObj.completedPercent}}
+                                <!--color badges -->
+                                <span class="badge rounded-circle a-level"
+                                    *ngIf="stdObj.peformanceLevel == 'Above-Level'">-</span>
+                                <span class="badge rounded-circle o-level"
+                                    *ngIf="stdObj.peformanceLevel == 'On-Level'">-</span>
+                                <span class="badge rounded-circle b-level"
+                                    *ngIf="stdObj.peformanceLevel == 'Below-Level'">-</span>
+                                {{stdObj.peformanceLevel}}
+                            </td>
+                            <!-- ngClass directive for ipad rendering-->
+                            <td [ngClass]="expand==false?'d-md-none d-lg-table-cell':'d-table-cell'">
+                                {{stdObj.mid1Score}}</td>
+                            <td [ngClass]="expand==false?'d-md-none d-lg-table-cell':'d-table-cell'">
+                                {{stdObj.mid2score}}</td>
+                            <td [ngClass]="expand==false?'d-md-none d-lg-table-cell':'d-table-cell'">
+                                {{stdObj.finalscore}}</td>
+                            <td [ngClass]="expand==false?'d-lg-none d-lg-table-cell':'d-table-cell'"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
